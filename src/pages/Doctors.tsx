@@ -13,9 +13,40 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from "@/components/ui/carousel";
+import { useEffect, useState } from "react";
 
 const Doctors = () => {
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCurrent(api.selectedScrollSnap());
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap());
+    });
+  }, [api]);
+
+  useEffect(() => {
+    if (!api) return;
+
+    const interval = setInterval(() => {
+      if (api.canScrollNext()) {
+        api.scrollNext();
+      } else {
+        api.scrollTo(0);
+      }
+    }, 3000); // Auto-scroll every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [api]);
+
   const doctors = [
     {
       name: "Dr. Thomas Rollins",
@@ -123,7 +154,7 @@ const Doctors = () => {
         </div>
       </section>
 
-      {/* Doctors Carousel Section */}
+      {/* Doctors Cards Section */}
       <AnimatedSection>
         <section className="py-16 bg-secondary/30">
           <div className="container mx-auto px-4">
@@ -138,6 +169,7 @@ const Doctors = () => {
 
             <div className="max-w-6xl mx-auto">
               <Carousel
+                setApi={setApi}
                 opts={{
                   align: "start",
                   loop: true,
@@ -146,7 +178,7 @@ const Doctors = () => {
               >
                 <CarouselContent className="-ml-2 md:-ml-4">
                   {doctors.map((doctor, index) => (
-                    <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                    <CarouselItem key={index} className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
                       <Card className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 group h-full">
                         <div className="relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-primary/10 to-accent/5">
                           <img
