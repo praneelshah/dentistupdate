@@ -7,6 +7,13 @@ import drRollins from "@/assets/dr-rollins-enhanced.jpg";
 import drMalerman from "@/assets/dr-malerman-enhanced.jpg";
 import drLockwood from "@/assets/dr-lockwood.jpg";
 import { Link } from "react-router-dom";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const Doctors = () => {
   const doctors = [
@@ -115,6 +122,100 @@ const Doctors = () => {
           </AnimatedSection>
         </div>
       </section>
+
+      {/* Doctors Carousel Section */}
+      <AnimatedSection>
+        <section className="py-16 bg-secondary/30">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4">
+                Our Expert Team
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Meet the experienced professionals dedicated to your smile transformation
+              </p>
+            </div>
+
+            <div className="max-w-6xl mx-auto">
+              <Carousel
+                opts={{
+                  align: "start",
+                  loop: true,
+                }}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-2 md:-ml-4">
+                  {doctors.map((doctor, index) => (
+                    <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                      <Card className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 group h-full">
+                        <div className="relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-primary/10 to-accent/5">
+                          <img
+                            src={doctor.image}
+                            alt={doctor.name}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                          <div className="absolute top-4 right-4">
+                            <Badge className="bg-primary/90 text-primary-foreground border-0">
+                              <Star className="w-3 h-3 mr-1 fill-primary-foreground" />
+                              {doctor.rating}
+                            </Badge>
+                          </div>
+                        </div>
+                        <CardContent className="p-6">
+                          <div className="mb-4">
+                            <h3 className="text-xl font-serif font-bold mb-1">{doctor.name}</h3>
+                            <p className="text-primary font-semibold text-sm">{doctor.title}</p>
+                          </div>
+                          
+                          <div className="mb-4">
+                            <p className="text-xs text-muted-foreground mb-2 font-semibold uppercase tracking-wide">
+                              Expertise
+                            </p>
+                            <div className="flex flex-wrap gap-1.5">
+                              {doctor.specialties.slice(0, 3).map((specialty, i) => (
+                                <Badge
+                                  key={i}
+                                  variant="secondary"
+                                  className="text-xs px-2 py-0.5"
+                                >
+                                  {specialty}
+                                </Badge>
+                              ))}
+                              {doctor.specialties.length > 3 && (
+                                <Badge variant="secondary" className="text-xs px-2 py-0.5">
+                                  +{doctor.specialties.length - 3} more
+                                </Badge>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="flex items-center justify-between text-sm text-muted-foreground mb-4 pt-4 border-t border-border/50">
+                            <div className="flex items-center gap-1">
+                              <Award className="w-4 h-4" />
+                              <span>{doctor.yearsExperience} years</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Users className="w-4 h-4" />
+                              <span>{doctor.patientsServed}</span>
+                            </div>
+                          </div>
+
+                          <Button className="w-full" variant="outline" asChild>
+                            <Link to="/contact">Book Consultation</Link>
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="hidden md:flex -left-12" />
+                <CarouselNext className="hidden md:flex -right-12" />
+              </Carousel>
+            </div>
+          </div>
+        </section>
+      </AnimatedSection>
 
       {/* Doctors Section */}
       <section className="py-20">
@@ -232,12 +333,6 @@ const Doctors = () => {
                           </div>
 
                           <div className="pt-4 space-y-3">
-                            {doctor.phone && (
-                              <a href={`tel:${doctor.phone}`} className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors font-semibold">
-                                <Phone className="w-4 h-4" />
-                                {doctor.phone}
-                              </a>
-                            )}
                             <Link to="/contact">
                               <Button size="lg" className="w-full sm:w-auto group/btn">
                                 <Calendar className="mr-2 h-5 w-5 group-hover/btn:scale-110 transition-transform" />
