@@ -22,13 +22,42 @@ const Contact = () => {
   });
   const [selectedOffice, setSelectedOffice] = useState<number | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message Sent!",
-      description: "We'll get back to you as soon as possible.",
-    });
-    setFormData({ firstName: "", lastName: "", email: "", phone: "", message: "" });
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/praneelshah.india@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          FirstName: formData.firstName,
+          LastName: formData.lastName,
+          Email: formData.email,
+          Phone: formData.phone,
+          Message: formData.message,
+          Source: "Precision Smile Orthodontics - Contact Form",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
+
+      toast({
+        title: "Message Sent!",
+        description: "We'll get back to you as soon as possible.",
+      });
+      setFormData({ firstName: "", lastName: "", email: "", phone: "", message: "" });
+    } catch (error) {
+      toast({
+        title: "Something went wrong",
+        description: "Please try again or call us directly.",
+        variant: "destructive",
+      });
+    }
   };
 
   const offices = [

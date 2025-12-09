@@ -162,6 +162,19 @@ const Services = () => {
         </div>
       </section>
 
+      {/* Disclaimer */}
+      <section className="py-10 bg-secondary">
+        <div className="container mx-auto px-4">
+          <AnimatedSection>
+            <Card className="p-6 border-0 shadow-2xl bg-background">
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Precision Smile Orthodontics is a marketing platform only; all doctors featured on this site are independent providers who practice on their own and are solely responsible for all patient care and treatment outcomes. By using this website, visitors acknowledge and agree that Precision Smile Orthodontics bears no liability for any services rendered by independent providers and waive any claims arising from such care.
+              </p>
+            </Card>
+          </AnimatedSection>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <AnimatedSection>
         <section className="py-16 bg-primary text-primary-foreground relative overflow-hidden">

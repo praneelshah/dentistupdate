@@ -189,8 +189,9 @@ const Payment = () => {
             </div>
 
             <p className="text-center text-sm text-muted-foreground mt-8">
-              * Prices may vary based on individual treatment needs. Final costs discussed during consultation.
-            </p>
+              * Prices may vary based on individual treatment needs, and final costs will be discussed during your consultation. <br></br>
+              Please note that our office offers payment plans through independent third-party financing companies. <br></br>
+              All approvals are based solely on the patient’s credit history and score, and a qualified co-signer may be required if the criteria are not met.  </p>
           </div>
           </AnimatedSection>
 
