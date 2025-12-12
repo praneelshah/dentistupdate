@@ -83,7 +83,7 @@ const Orthodontics = () => {
             AS LOW AS $149 Per Month For Braces
           </p>
           <Button size="lg" asChild className="shadow-xl">
-            <a href="tel:8168803900">Call Now! (816) 880-3900</a>
+            <a href="tel:6103010295">Call Now! 610-301-0295</a>
           </Button>
         </div>
       </section>
@@ -200,7 +200,7 @@ const Orthodontics = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" variant="outline" asChild className="bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white hover:text-primary">
-              <a href="tel:8168803900">Call (816) 880-3900</a>
+              <a href="tel:6103010295">Call 610-301-0295</a>
             </Button>
             <Button size="lg" variant="outline" asChild className="bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white hover:text-primary">
               <Link to="/virtual-consultation">Virtual Consultation</Link>

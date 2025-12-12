@@ -13,6 +13,9 @@ import LocationMap from "@/components/LocationMap";
 
 // Backend API endpoint
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+// FormSubmit endpoint - free unlimited submissions
+const FORM_EMAIL = import.meta.env.VITE_FORM_EMAIL || 'info@precisionsmileorthodontics.com';
+const FORMSUBMIT_ENDPOINT = `https://formsubmit.co/${FORM_EMAIL}`;
 
 const Contact = () => {
   const { toast } = useToast();
@@ -28,35 +31,67 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(`${API_URL}/api/contact`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-        }),
-      });
+      // Try custom backend first, fall back to FormSubmit
+      const useBackend = Boolean(API_URL && API_URL !== 'http://localhost:3001');
+      let response;
 
-      const result = await response.json();
+      if (useBackend) {
+        // Try custom backend
+        try {
+          response = await fetch(`${API_URL}/api/contact`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          });
 
-      const submissionSucceeded =
-        response.ok ||
-        result.success === true ||
-        result.success === "true";
+          if (!response.ok) {
+            throw new Error('Backend failed, falling back to FormSubmit');
+          }
 
-      if (submissionSucceeded) {
+          const result = await response.json();
+          const submissionSucceeded = response.ok || result.success === true || result.success === "true";
+
+          if (!submissionSucceeded) {
+            throw new Error('Backend failed, falling back to FormSubmit');
+          }
+        } catch (backendError) {
+          console.log('Backend unavailable, using FormSubmit:', backendError);
+          // Fall through to FormSubmit
+          response = null;
+        }
+      }
+
+      // Use FormSubmit if backend is not configured or failed
+      if (!response || !response.ok) {
+        const payload = new FormData();
+        payload.append('firstName', formData.firstName);
+        payload.append('lastName', formData.lastName);
+        payload.append('email', formData.email);
+        payload.append('phone', formData.phone);
+        payload.append('message', formData.message);
+        payload.append('_subject', 'New Contact Form Submission - Precision Smile Orthodontics');
+        payload.append('_template', 'table');
+        payload.append('_captcha', 'false'); // Set to 'true' to enable reCAPTCHA
+
+        response = await fetch(FORMSUBMIT_ENDPOINT, {
+          method: 'POST',
+          body: payload,
+        });
+      }
+
+      if (response && response.ok) {
         toast({
           title: "Message Sent!",
           description: "We'll get back to you as soon as possible.",
         });
         setFormData({ firstName: "", lastName: "", email: "", phone: "", message: "" });
       } else {
-        throw new Error(result.message || 'Failed to send message');
+        throw new Error('Failed to send message');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -159,7 +194,7 @@ const Contact = () => {
         >
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
         </div>
-        
+
         <AnimatedSection className="relative z-10 container mx-auto px-4 text-center text-white">
           <h1 className="text-5xl md:text-7xl font-serif font-light mb-6 tracking-wide">
             Contact Us
@@ -242,9 +277,9 @@ const Contact = () => {
                     />
                   </div>
 
-                  <Button 
-                    type="submit" 
-                    size="lg" 
+                  <Button
+                    type="submit"
+                    size="lg"
                     className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
                     disabled={isSubmitting}
                   >
@@ -268,7 +303,7 @@ const Contact = () => {
               <AnimatedSection key={index} delay={index * 100}>
                 <Card className="p-6 border-0 shadow-2xl bg-background">
                   <h3 className="text-2xl font-serif font-bold mb-6 text-center">{office.name}</h3>
-                  
+
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Office Information */}
                     <div className="space-y-4">
@@ -296,7 +331,7 @@ const Contact = () => {
                     {/* Map */}
                     <div className="aspect-[4/3] lg:aspect-[3/2] bg-muted rounded-lg overflow-hidden relative group cursor-pointer">
                       <div onClick={() => setSelectedOffice(index)} className="w-full h-full">
-                        <LocationMap 
+                        <LocationMap
                           lat={office.lat}
                           lng={office.lng}
                           officeName={office.name}
@@ -310,7 +345,7 @@ const Contact = () => {
                       >
                         <Maximize2 className="w-5 h-5" />
                       </button>
-                      <a 
+                      <a
                         href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(office.address.replace('\n', ', '))}`}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -352,13 +387,13 @@ const Contact = () => {
           <div className="h-[calc(95vh-140px)] w-full relative">
             {selectedOffice !== null && (
               <>
-                <LocationMap 
+                <LocationMap
                   lat={offices[selectedOffice].lat}
                   lng={offices[selectedOffice].lng}
                   officeName={offices[selectedOffice].name}
                   address={offices[selectedOffice].address}
                 />
-                <a 
+                <a
                   href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(offices[selectedOffice].address.replace('\n', ', '))}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -387,7 +422,7 @@ const Contact = () => {
               We offer flexible scheduling with evening and weekend appointments available. Contact us today!
             </p>
             <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center">
-             
+
             </div>
           </div>
         </section>

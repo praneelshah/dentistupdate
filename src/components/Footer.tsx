@@ -51,14 +51,14 @@ const Footer = () => {
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2">
                 <Phone size={16} />
-                <a href="tel:+610-301-0295" className="hover:text-accent transition-colors">
-                610-301-0295
+                <a href="tel:6103010295" className="hover:text-accent transition-colors">
+                  610-301-0295
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={16} />
-                <a href="mailto:info@precisionsmileortho.com" className="hover:text-accent transition-colors">
-                  info@precisionsmileortho.com
+                <a href="mailto:info@precisionsmileorthodontics.com" className="hover:text-accent transition-colors">
+                  info@precisionsmileorthodontics.com
                 </a>
               </li>
             </ul>
@@ -71,6 +71,7 @@ const Footer = () => {
         <div className="border-t border-primary-foreground/20 mt-12 pt-8 text-center text-sm text-primary-foreground/60">
           <p>&copy; {new Date().getFullYear()} Precision Smile Orthodontics. All rights reserved.</p>
         </div>
+
       </div>
     </footer>
   );

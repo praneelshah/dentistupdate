@@ -89,13 +89,13 @@ const Home = () => {
           playsInline
           disablePictureInPicture
           controlsList="nodownload nofullscreen noremoteplayback"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover md:object-center object-[center_30%]"
           style={{ pointerEvents: 'none' }}
         >
           <source src="/hero-dental-video.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/50" />
-        
+
         <div className="relative z-10 container mx-auto px-4 text-center text-white">
           <div className="space-y-4 animate-fade-in">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-light tracking-wider mb-6">
@@ -134,7 +134,7 @@ const Home = () => {
             <h2 className="text-3xl md:text-4xl font-serif font-light text-accent-foreground tracking-wide">
               Contact us today at{" "}
               <a href="tel:610-301-0295" className="font-semibold underline decoration-2 underline-offset-4 hover:no-underline transition-all">
-              610-301-0295
+                610-301-0295
               </a>
             </h2>
             <p className="mt-4 text-accent-foreground/80">Schedule your initial consultation</p>
@@ -293,12 +293,12 @@ const Home = () => {
             <div className="h-px bg-accent w-24 mx-auto my-8"></div>
             <p className="text-lg text-muted-foreground font-light leading-relaxed">
               Please feel free to{" "}
-              <a href="mailto:imaginedentalkc@gmail.com" className="text-accent hover:underline underline-offset-4 transition-all">
+              <a href="mailto:info@precisionsmileorthodontics.com" className="text-accent hover:underline underline-offset-4 transition-all">
                 e-mail
               </a>{" "}
               or call us at{" "}
               <a href="tel:610-301-0295" className="text-accent font-medium hover:underline underline-offset-4 transition-all">
-              610-301-0295
+                610-301-0295
               </a>{" "}
               with any questions. Thanks for visiting!
             </p>

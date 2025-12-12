@@ -65,7 +65,7 @@ const Services = () => {
         >
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
         </div>
-        
+
         <AnimatedSection className="relative z-10 container mx-auto px-4 text-center text-white">
           <h1 className="text-5xl md:text-7xl font-serif font-light mb-6 tracking-wide">
             Dental Services
@@ -97,7 +97,7 @@ const Services = () => {
                 </div>
               </Card>
             </AnimatedSection>
-            
+
             <AnimatedSection delay={150}>
               <Card className="overflow-hidden border-0 shadow-2xl bg-background group">
                 <div className="aspect-[4/3] overflow-hidden relative">
@@ -125,16 +125,16 @@ const Services = () => {
             {services.map((service, index) => (
               <AnimatedSection key={index} delay={index * 100}>
                 <Card className="p-8 border-0 shadow-2xl hover:shadow-[var(--shadow-elegant)] transition-all duration-500 bg-card">
-                <h2 className="text-3xl font-serif font-bold mb-6">{service.category}</h2>
-                <ul className="space-y-3">
-                  {service.items.map((item, itemIndex) => (
-                    <li key={itemIndex} className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
-                      <span className="text-lg">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </Card>
+                  <h2 className="text-3xl font-serif font-bold mb-6">{service.category}</h2>
+                  <ul className="space-y-3">
+                    {service.items.map((item, itemIndex) => (
+                      <li key={itemIndex} className="flex items-start gap-3">
+                        <CheckCircle className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
+                        <span className="text-lg">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
               </AnimatedSection>
             ))}
           </div>
@@ -142,22 +142,22 @@ const Services = () => {
           {/* Insurance Info */}
           <AnimatedSection>
             <Card className="p-12 bg-secondary border-0 text-center shadow-2xl">
-            <h2 className="text-3xl font-serif font-bold mb-4">
-              Insurance & Payment Plans
-            </h2>
-            <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
-              We accept the majority of insurance plans and offer flexible payment options
-              to make quality dental care accessible to everyone.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" asChild>
-                <Link to="/payment">View Payment Options</Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild>
-                <Link to="/contact">Schedule Consultation</Link>
-              </Button>
-            </div>
-          </Card>
+              <h2 className="text-3xl font-serif font-bold mb-4">
+                Insurance & Payment Plans
+              </h2>
+              <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
+                We accept the majority of insurance plans and offer flexible payment options
+                to make quality dental care accessible to everyone.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" asChild>
+                  <Link to="/payment">View Payment Options</Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild>
+                  <Link to="/contact">Schedule Consultation</Link>
+                </Button>
+              </div>
+            </Card>
           </AnimatedSection>
         </div>
       </section>
@@ -184,15 +184,15 @@ const Services = () => {
           </div>
           <div className="container mx-auto px-4 text-center relative z-10">
             <h2 className="text-4xl font-serif font-light mb-6">
-            Ready to Get Started?
-          </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto font-light opacity-90">
-            Same day and weekend appointments available
-          </p>
-          <Button size="lg" variant="outline" asChild className="bg-transparent backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-primary transition-all duration-300">
-            <a href="tel:8168803900">Call (816) 880-3900</a>
-          </Button>
-        </div>
+              Ready to Get Started?
+            </h2>
+            <p className="text-xl mb-8 max-w-2xl mx-auto font-light opacity-90">
+              Same day and weekend appointments available
+            </p>
+            <Button size="lg" variant="outline" asChild className="bg-transparent backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-primary transition-all duration-300">
+              <a href="tel:6103010295">Call 610-301-0295</a>
+            </Button>
+          </div>
         </section>
       </AnimatedSection>
     </div>
