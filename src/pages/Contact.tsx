@@ -6,10 +6,13 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { MapPin, Phone, Clock, Maximize2 } from "lucide-react";
+import { MapPin, Clock, Maximize2 } from "lucide-react";
 import contactHero from "@/assets/contact-hero.jpg";
 import AnimatedSection from "@/components/AnimatedSection";
 import LocationMap from "@/components/LocationMap";
+
+// Backend API endpoint
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
 const Contact = () => {
   const { toast } = useToast();
@@ -21,42 +24,49 @@ const Contact = () => {
     message: "",
   });
   const [selectedOffice, setSelectedOffice] = useState<number | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    setIsSubmitting(true);
+
     try {
-      const response = await fetch("https://formsubmit.co/ajax/info@precisionsmileorthodontics.com", {
+      const response = await fetch(`${API_URL}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
         },
         body: JSON.stringify({
-          FirstName: formData.firstName,
-          LastName: formData.lastName,
-          Email: formData.email,
-          Phone: formData.phone,
-          Message: formData.message,
-          Source: "Precision Smile Orthodontics - Contact Form",
+          ...formData,
         }),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to send message");
-      }
+      const result = await response.json();
 
-      toast({
-        title: "Message Sent!",
-        description: "We'll get back to you as soon as possible.",
-      });
-      setFormData({ firstName: "", lastName: "", email: "", phone: "", message: "" });
+      const submissionSucceeded =
+        response.ok ||
+        result.success === true ||
+        result.success === "true";
+
+      if (submissionSucceeded) {
+        toast({
+          title: "Message Sent!",
+          description: "We'll get back to you as soon as possible.",
+        });
+        setFormData({ firstName: "", lastName: "", email: "", phone: "", message: "" });
+      } else {
+        throw new Error(result.message || 'Failed to send message');
+      }
     } catch (error) {
+      console.error('Error submitting form:', error);
       toast({
-        title: "Something went wrong",
-        description: "Please try again or call us directly.",
+        title: "Error",
+        description: "Failed to send message. Please try again later.",
         variant: "destructive",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -232,8 +242,13 @@ const Contact = () => {
                     />
                   </div>
 
-                  <Button type="submit" size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
-                    Send Message
+                  <Button 
+                    type="submit" 
+                    size="lg" 
+                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Sending..." : "Send Message"}
                   </Button>
                 </form>
               </Card>
@@ -262,16 +277,6 @@ const Contact = () => {
                         <p className="text-muted-foreground whitespace-pre-line">{office.address}</p>
                       </div>
 
-                      <div className="flex items-center gap-3">
-                        <Phone className="w-5 h-5 text-accent flex-shrink-0" />
-                        <a
-                          href={office.phoneLink}
-                          className="text-muted-foreground hover:text-primary transition-colors font-medium"
-                        >
-                          {office.phone}
-                        </a>
-                      </div>
-
                       <div className="pt-4 border-t">
                         <div className="flex items-start gap-3 mb-3">
                           <Clock className="w-5 h-5 text-accent mt-1 flex-shrink-0" />
@@ -286,10 +291,6 @@ const Contact = () => {
                           ))}
                         </div>
                       </div>
-
-                      <Button className="w-full mt-6" asChild>
-                        <a href={office.phoneLink}>Call {office.name}</a>
-                      </Button>
                     </div>
 
                     {/* Map */}
@@ -386,24 +387,7 @@ const Contact = () => {
               We offer flexible scheduling with evening and weekend appointments available. Contact us today!
             </p>
             <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center">
-              <Button size="lg" variant="outline" asChild className="bg-transparent backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-primary transition-all duration-300">
-                <a href="tel:+16104355599">Allentown: (610) 435-5599</a>
-              </Button>
-              <Button size="lg" variant="outline" asChild className="bg-transparent backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-primary transition-all duration-300">
-                <a href="tel:+12155384550">Quakertown: (215) 538-4550</a>
-              </Button>
-              <Button size="lg" variant="outline" asChild className="bg-transparent backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-primary transition-all duration-300">
-                <a href="tel:+12152560808">Harleysville: (215) 256-0808</a>
-              </Button>
-              <Button size="lg" variant="outline" asChild className="bg-transparent backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-primary transition-all duration-300">
-                <a href="tel:+17177358844">Lancaster: (717) 735-8844</a>
-              </Button>
-              <Button size="lg" variant="outline" asChild className="bg-transparent backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-primary transition-all duration-300">
-                <a href="tel:+12153323600">NE Philly: (215) 332-3600</a>
-              </Button>
-              <Button size="lg" variant="outline" asChild className="bg-transparent backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-primary transition-all duration-300">
-                <a href="tel:+12154555599">N Philly: (215) 455-5599</a>
-              </Button>
+             
             </div>
           </div>
         </section>

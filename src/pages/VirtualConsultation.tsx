@@ -10,6 +10,14 @@ import { Smartphone, Users, Utensils, Upload, CheckCircle } from "lucide-react";
 import virtualHero from "@/assets/virtual-consultation-hero.jpg";
 import AnimatedSection from "@/components/AnimatedSection";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+const VIRTUAL_SILENT_FORM_URL =
+  import.meta.env.VITE_VIRTUAL_SILENT_FORM_URL ||
+  `${API_URL}/api/virtual-consult`;
+const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
+const WEB3FORMS_VIRTUAL_KEY =
+  import.meta.env.VITE_WEB3FORMS_VIRTUAL_KEY || import.meta.env.VITE_WEB3FORMS_KEY;
+
 const VirtualConsultation = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
@@ -19,14 +27,84 @@ const VirtualConsultation = () => {
     message: "",
   });
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [photos, setPhotos] = useState<File[]>([]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Consultation Request Received!",
-      description: "We'll contact you shortly to schedule your virtual consultation.",
-    });
-    setFormData({ name: "", email: "", phone: "", message: "" });
+    setIsSubmitting(true);
+
+    try {
+      const payload = new FormData();
+      const useBackend = Boolean(VIRTUAL_SILENT_FORM_URL);
+
+      if (!useBackend) {
+        if (!WEB3FORMS_VIRTUAL_KEY) {
+          throw new Error("Missing email endpoint: set VITE_VIRTUAL_SILENT_FORM_URL or VITE_WEB3FORMS_VIRTUAL_KEY.");
+        }
+        payload.append("access_key", WEB3FORMS_VIRTUAL_KEY);
+        payload.append("subject", "New Virtual Orthodontics Consultation Request");
+      }
+
+      payload.append("name", formData.name);
+      payload.append("email", formData.email);
+      payload.append("phone", formData.phone);
+      payload.append("message", formData.message);
+      payload.append("_subject", "New Virtual Orthodontics Consultation Request");
+      payload.append("_template", "table");
+      payload.append("_replyto", formData.email);
+      payload.append("consent", agreedToTerms ? "Agreed to terms" : "Not agreed");
+      photos.forEach((file) => {
+        // send each photo under the backend-expected field name "photos"
+        payload.append("photos", file, file.name);
+      });
+
+      const endpoint = useBackend ? VIRTUAL_SILENT_FORM_URL : WEB3FORMS_ENDPOINT;
+
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: payload,
+      });
+
+      const contentType = response.headers.get("content-type") || "";
+      let result: any = null;
+      if (contentType.includes("application/json")) {
+        result = await response.json();
+      } else {
+        result = { success: response.ok };
+        await response.text();
+      }
+
+      const submissionSucceeded =
+        response.ok ||
+        result?.success === true ||
+        result?.success === "true";
+
+      if (!submissionSucceeded) {
+        const message =
+          result?.message ||
+          result?.error ||
+          "Failed to send consultation request";
+        throw new Error(message);
+      }
+
+      toast({
+        title: "Consultation Request Received!",
+        description: "We'll contact you shortly to schedule your virtual consultation.",
+      });
+      setFormData({ name: "", email: "", phone: "", message: "" });
+      setAgreedToTerms(false);
+      setPhotos([]);
+    } catch (error) {
+      console.error("Error submitting virtual consultation:", error);
+      toast({
+        title: "Error",
+        description: "Failed to send your request. Please try again shortly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const steps = [
@@ -184,7 +262,16 @@ const VirtualConsultation = () => {
                 <p className="text-sm text-muted-foreground mb-4">
                   Please upload all 5 required photos (front, sides, upper, lower)
                 </p>
-                <Input type="file" multiple accept="image/*" className="max-w-xs mx-auto" />
+                <Input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  className="max-w-xs mx-auto"
+                  onChange={(e) => {
+                    const files = e.target.files ? Array.from(e.target.files) : [];
+                    setPhotos(files);
+                  }}
+                />
                 
                 <div className="mt-6 text-left">
                   <p className="text-sm text-muted-foreground mb-4">
@@ -208,9 +295,9 @@ const VirtualConsultation = () => {
                   type="submit" 
                   size="lg" 
                   className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
-                  disabled={!agreedToTerms}
+                  disabled={!agreedToTerms || isSubmitting}
                 >
-                  Submit Virtual Consultation Request
+                  {isSubmitting ? "Submitting..." : "Submit Virtual Consultation Request"}
                 </Button>
               </form>
             </Card>
