@@ -29,12 +29,12 @@ const Navigation = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled || location.pathname !== '/' ? 'bg-background/98 backdrop-blur-lg shadow-xl border-b border-border/50' : 'bg-background/40 backdrop-blur-md border-b border-white/10'
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled || location.pathname !== '/' ? 'bg-background/98 backdrop-blur-lg shadow-xl border-b border-border/50' : 'bg-black/60 backdrop-blur-md border-b border-white/20'
       }`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           <Link to="/" className="flex items-center flex-shrink-0">
-            <h1 className={`text-base lg:text-lg font-serif font-bold tracking-wide transition-all duration-300 ${scrolled || location.pathname !== '/' ? 'text-foreground' : 'text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]'
+            <h1 className={`text-base lg:text-lg font-serif font-bold tracking-wide transition-all duration-300 ${scrolled || location.pathname !== '/' ? 'text-foreground' : 'text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]'
               }`}>
               PRECISION SMILE ORTHODONTICS
             </h1>
@@ -65,7 +65,7 @@ const Navigation = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className={`xl:hidden p-2 transition-all duration-300 ${scrolled || location.pathname !== '/' ? 'text-foreground' : 'text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]'} hover:scale-110`}
+            className={`xl:hidden p-2 transition-all duration-300 ${scrolled || location.pathname !== '/' ? 'text-foreground' : 'text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]'} hover:scale-110`}
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
           >
