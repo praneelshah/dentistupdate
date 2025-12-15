@@ -43,6 +43,21 @@ const Footer = () => {
                   Payment Options
                 </Link>
               </li>
+              <li>
+                <Link to="/terms-and-conditions" className="hover:text-accent transition-colors">
+                  Terms &amp; Conditions
+                </Link>
+              </li>
+              <li>
+                <Link to="/disclaimer" className="hover:text-accent transition-colors">
+                  Disclaimer
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacy-policy" className="hover:text-accent transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
             </ul>
           </div>
 
