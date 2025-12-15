@@ -9,7 +9,7 @@ const PrivacyPolicy = () => {
             <div className="space-y-3 text-center">
               <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">Privacy Policy</p>
               <h1 className="text-4xl sm:text-5xl font-serif font-light">Privacy Policy</h1>
-              <p className="text-sm text-muted-foreground">Last Updated:</p>
+              <p className="text-sm text-muted-foreground"></p>
             </div>
 
             <p className="text-muted-foreground leading-relaxed">

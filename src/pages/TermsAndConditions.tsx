@@ -11,7 +11,7 @@ const TermsAndConditions = () => {
                 Terms &amp; Conditions
               </p>
               <h1 className="text-4xl sm:text-5xl font-serif font-light">Terms &amp; Conditions</h1>
-              <p className="text-sm text-muted-foreground">Last Updated:</p>
+              <p className="text-sm text-muted-foreground"></p>
             </div>
 
             <p className="text-muted-foreground leading-relaxed">
