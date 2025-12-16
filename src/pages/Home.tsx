@@ -126,14 +126,14 @@ const Home = () => {
   const smileTransformations = [
     {
       title: "Full Smile Rehabilitation",
-      before: "/before-after-1-before.JPG",
-      after: "/before-after-1-after.JPG",
+      before: "/before1.jpeg",
+      after: "/after1.jpeg",
       summary: "Closed anterior spacing and rebuilt worn enamel for a uniform, confident smile.",
     },
     {
       title: "Trauma Reconstruction",
-      before: "/before-after-2-before.jpg",
-      after: "/before-after-2-after.jpg",
+      before: "/before2.jpeg",
+      after: "/after2.jpeg",
       summary: "Repaired fractured incisors with lifelike ceramics to restore symmetry and strength.",
     },
   ];
