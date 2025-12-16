@@ -75,15 +75,15 @@ const Navigation = () => {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="xl:hidden pb-4 space-y-2 bg-background/98 backdrop-blur-lg rounded-b-lg shadow-xl animate-in slide-in-from-top-4 duration-300">
+          <div className="xl:hidden pb-4 space-y-2 bg-primary text-primary-foreground backdrop-blur-lg rounded-b-lg shadow-xl animate-in slide-in-from-top-4 duration-300">
             {navItems.map((item, index) => (
               <Link
                 key={item.path}
                 to={item.path}
                 onClick={() => setIsOpen(false)}
                 className={`block px-4 py-3 text-sm font-medium transition-all duration-300 animate-in slide-in-from-right-4 ${isActive(item.path)
-                    ? "text-primary bg-secondary font-semibold"
-                    : "text-foreground hover:text-primary hover:bg-secondary/50 hover:translate-x-1"
+                    ? "bg-primary-foreground/10 text-primary-foreground font-semibold"
+                    : "text-primary-foreground/90 hover:text-white hover:bg-primary-foreground/10 hover:translate-x-1"
                   }`}
                 style={{ animationDelay: `${index * 50}ms` }}
               >
