@@ -29,13 +29,11 @@ const Navigation = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled || location.pathname !== '/' ? 'bg-background/98 backdrop-blur-lg shadow-xl border-b border-border/50' : 'bg-black/60 backdrop-blur-md border-b border-white/20'
-      }`}>
+    <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-white text-black border-b border-border/50 shadow-md">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           <Link to="/" className="flex items-center flex-shrink-0">
-            <h1 className={`text-base lg:text-lg font-serif font-bold tracking-wide transition-all duration-300 ${scrolled || location.pathname !== '/' ? 'text-foreground' : 'text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]'
-              }`}>
+            <h1 className="text-base lg:text-lg font-serif font-bold tracking-wide transition-all duration-300 text-black">
               PRECISION SMILE ORTHODONTICS
             </h1>
           </Link>
@@ -46,14 +44,11 @@ const Navigation = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`px-2.5 py-2 text-xs font-medium transition-all duration-300 whitespace-nowrap ${scrolled || location.pathname !== '/'
-                    ? isActive(item.path)
-                      ? "text-primary font-semibold"
-                      : "text-foreground/80 hover:text-primary"
-                    : isActive(item.path)
-                      ? "text-white font-semibold drop-shadow-lg"
-                      : "text-white/90 hover:text-white drop-shadow-lg"
-                  }`}
+                className={`px-2.5 py-2 text-xs font-medium transition-all duration-300 whitespace-nowrap ${
+                  isActive(item.path)
+                    ? "text-primary font-semibold"
+                    : "text-black/80 hover:text-primary"
+                }`}
               >
                 {item.label}
               </Link>
@@ -65,7 +60,7 @@ const Navigation = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className={`xl:hidden p-2 transition-all duration-300 ${scrolled || location.pathname !== '/' ? 'text-foreground' : 'text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]'} hover:scale-110`}
+            className="xl:hidden p-2 transition-all duration-300 text-black hover:scale-110"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
           >
@@ -75,16 +70,17 @@ const Navigation = () => {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="xl:hidden pb-4 space-y-2 bg-primary text-primary-foreground backdrop-blur-lg rounded-b-lg shadow-xl animate-in slide-in-from-top-4 duration-300">
+          <div className="xl:hidden pb-4 space-y-2 bg-white text-black rounded-b-lg shadow-xl animate-in slide-in-from-top-4 duration-300">
             {navItems.map((item, index) => (
               <Link
                 key={item.path}
                 to={item.path}
                 onClick={() => setIsOpen(false)}
-                className={`block px-4 py-3 text-sm font-medium transition-all duration-300 animate-in slide-in-from-right-4 ${isActive(item.path)
-                    ? "bg-primary-foreground/10 text-primary-foreground font-semibold"
-                    : "text-primary-foreground/90 hover:text-white hover:bg-primary-foreground/10 hover:translate-x-1"
-                  }`}
+                className={`block px-4 py-3 text-sm font-medium transition-all duration-300 animate-in slide-in-from-right-4 ${
+                  isActive(item.path)
+                    ? "bg-black/5 text-black font-semibold"
+                    : "text-black hover:text-primary hover:bg-black/5 hover:translate-x-1"
+                }`}
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 {item.label}
