@@ -212,7 +212,7 @@ const Payment = () => {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button size="lg" variant="outline" asChild className="bg-transparent backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-primary transition-all duration-300">
-                    <a href="tel:+12159461000">Call to Verify Insurance</a>
+                    <a href="tel:+610-301-0295">Call to Verify Insurance</a>
                   </Button>
                   <Button size="lg" variant="outline" asChild className="bg-transparent backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-primary transition-all duration-300">
                     <Link to="/contact">Schedule Consultation</Link>
